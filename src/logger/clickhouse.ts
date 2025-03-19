@@ -43,7 +43,7 @@ export class ClickHouseLogger implements ITokenLogger {
     const data = [
       {
         cti: token.cti,
-        timestamp: Date.now(),
+        timestamp: Math.floor(Date.now() / 1000),
         iat: token.claims.iat,
         exp: token.claims.exp,
         sub: token.claims.sub
