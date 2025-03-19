@@ -1,4 +1,4 @@
-import { ConsoleLogger, HttpValidator } from '@eyevinn/cat';
+import { ConsoleLogger, HttpValidator, RedisCTIStore } from '@eyevinn/cat';
 import { FastifyPluginCallback } from 'fastify';
 
 export interface ValidateOptions {
@@ -7,7 +7,7 @@ export interface ValidateOptions {
     key: Buffer;
   }[];
   issuer: string;
-  redisUrl?: URL;
+  redisUrl?: string;
 }
 
 const apiValidate: FastifyPluginCallback<ValidateOptions> = (
@@ -15,11 +15,16 @@ const apiValidate: FastifyPluginCallback<ValidateOptions> = (
   opts,
   next
 ) => {
+  let store;
+  if (opts.redisUrl) {
+    store = new RedisCTIStore(new URL(opts.redisUrl));
+  }
   const validator = new HttpValidator({
     keys: opts.keys,
     issuer: opts.issuer,
     autoRenewEnabled: true,
     tokenMandatory: true,
+    store,
     logger: new ConsoleLogger()
   });
 

@@ -47,6 +47,39 @@ Above will start an nginx server that will use the validation endpoint to valida
 
 In response we will get status `401` if the validation endpoint denies access to the `myfile.txt` resource.
 
+### Token store
+
+For storing and counting token usage you provide a URL to a Redis key/value store.
+
+```bash
+% docker run --rm -p 8000:8000 \
+  -e KEYS=Symmetric256:403697de87af64611c1d32a05dab0fe1fcb715a86ab435f1ec99192d79569388 \
+  -e REDIS_URL=redis://redis:6379
+  eyevinntechnology/cat-validator
+```
+
+
+### Docker Compose
+
+As an example there is a `docker-compose.yml` file that setups a redis store, validator and nginx if you want to quickly try it out locally.
+
+```bash
+% docker-compose up -d
+```
+
+Generate a sample token
+
+```bash
+% npx ts-node examples/generate.ts
+0YRDoQEFoQRMU3ltbWV0cmljMjU2eL5kOTAxMDNhNzAxNjc2MzZmNmQ3MDZmNzM2NTAyNjU2YTZmNmU2MTczMDM2MzZmNmU2NTA0MWE2N2RhZTcxMzA2MWE2N2RhZTY5YjE5MDE0M2Q5MDEwM2E0MDAwMjA0Nzc2Mzc0NjEyZDYzNmY2ZDZkNmY2ZTJkNjE2MzYzNjU3MzczMmQ3NDZmNmI2NTZlMDExODc4MDIxODNjMDc1MGU3YTU3NTE0ZGZmZDQ4NTY1OGUyNzIzMmM3Mzc2Y2ZlWCBtTX9h/k/lNZJZTq4xrj5CJtlRjXILgTsQmE8ubTDHtQ==
+```
+
+Then try it out with curl
+
+```bash
+% curl -v -H 'CTA-Common-Access-Token: 0YRDoQEFoQRMU3ltbWV0cmljMjU2eL5kOTAxMDNhNzAxNjc2MzZmNmQ3MDZmNzM2NTAyNjU2YTZmNmU2MTczMDM2MzZmNmU2NTA0MWE2N2RhZTcxMzA2MWE2N2RhZTY5YjE5MDE0M2Q5MDEwM2E0MDAwMjA0Nzc2Mzc0NjEyZDYzNmY2ZDZkNmY2ZTJkNjE2MzYzNjU3MzczMmQ3NDZmNmI2NTZlMDExODc4MDIxODNjMDc1MGU3YTU3NTE0ZGZmZDQ4NTY1OGUyNzIzMmM3Mzc2Y2ZlWCBtTX9h/k/lNZJZTq4xrj5CJtlRjXILgTsQmE8ubTDHtQ==' http://localhost:8080/myfile.txt
+```
+
 ## Requirements
 
 - Node version 22+

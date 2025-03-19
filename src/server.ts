@@ -13,6 +13,7 @@ if (process.env.KEYS) {
   kid = keyId;
   key = Buffer.from(keyHex, 'hex');
 }
+
 const PORT = process.env.PORT ? Number(process.env.PORT) : 8000;
 
 server.register(apiValidate, {
@@ -22,7 +23,8 @@ server.register(apiValidate, {
       key
     }
   ],
-  issuer: 'eyevinn'
+  issuer: process.env.ISSUER || 'eyevinn',
+  redisUrl: process.env.REDIS_URL
 });
 server.listen({ port: PORT, host: '0.0.0.0' }, (err, address) => {
   if (err) {
