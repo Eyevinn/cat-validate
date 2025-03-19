@@ -24,7 +24,8 @@ server.register(apiValidate, {
     }
   ],
   issuer: process.env.ISSUER || 'eyevinn',
-  redisUrl: process.env.REDIS_URL
+  redisUrl: process.env.REDIS_URL,
+  clickHouseUrl: process.env.CLICKHOUSE_URL
 });
 server.listen({ port: PORT, host: '0.0.0.0' }, (err, address) => {
   if (err) {

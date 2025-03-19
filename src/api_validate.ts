@@ -1,5 +1,6 @@
 import { ConsoleLogger, HttpValidator, RedisCTIStore } from '@eyevinn/cat';
 import { FastifyPluginCallback } from 'fastify';
+import { ClickHouseLogger } from './logger/clickhouse';
 
 export interface ValidateOptions {
   keys: {
@@ -8,6 +9,7 @@ export interface ValidateOptions {
   }[];
   issuer: string;
   redisUrl?: string;
+  clickHouseUrl?: string;
 }
 
 const apiValidate: FastifyPluginCallback<ValidateOptions> = (
@@ -16,8 +18,14 @@ const apiValidate: FastifyPluginCallback<ValidateOptions> = (
   next
 ) => {
   let store;
+  let logger;
   if (opts.redisUrl) {
     store = new RedisCTIStore(new URL(opts.redisUrl));
+  }
+  if (opts.clickHouseUrl) {
+    logger = new ClickHouseLogger(new URL(opts.clickHouseUrl));
+  } else {
+    logger = new ConsoleLogger();
   }
   const validator = new HttpValidator({
     keys: opts.keys,
@@ -25,7 +33,7 @@ const apiValidate: FastifyPluginCallback<ValidateOptions> = (
     autoRenewEnabled: true,
     tokenMandatory: true,
     store,
-    logger: new ConsoleLogger()
+    logger
   });
 
   fastify.addHook('preHandler', async (req, reply) => {
