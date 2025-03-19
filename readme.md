@@ -36,7 +36,7 @@ Token has expired
 This endpoint can now be used as an authentication endpoint for an nginx web server. As an example:
 
 ```bash
-% docker run -v ./examples/nginx.conf:/etc/nginx/nginx.conf:ro -p 8080:80 -d nginx 
+% docker run -v ./examples/nginx.conf:/etc/nginx/nginx.conf:ro -p 8080:80 -d nginx
 ```
 
 Above will start an nginx server that will use the validation endpoint to validate that the user is entitles to fetch the resource. We can try this with curl.
@@ -49,7 +49,7 @@ In response we will get status `401` if the validation endpoint denies access to
 
 ### Token store
 
-For storing and counting token usage you provide a URL to a Redis key/value store.
+For storing and counting token usage you provide a URL to a [Redis key/value store](https://app.osaas.io/dashboard/service/valkey-io-valkey).
 
 ```bash
 % docker run --rm -p 8000:8000 \
@@ -58,6 +58,16 @@ For storing and counting token usage you provide a URL to a Redis key/value stor
   eyevinntechnology/cat-validator
 ```
 
+### Token logs
+
+To log all used tokens for usage analysis you provide a URL to a [ClickHouse database server](https://app.osaas.io/dashboard/service/clickhouse-clickhouse).
+
+```bash
+% docker run --rm -p 8000:8000 \
+  -e KEYS=Symmetric256:403697de87af64611c1d32a05dab0fe1fcb715a86ab435f1ec99192d79569388 \
+  -e CLICKHOUSE_URL=ttps://cat:cat@eyevinnlab-tokenlog.clickhouse-clickhouse.auto.prod.osaas.io \
+  eyevinntechnology/cat-validator
+```
 
 ### Docker Compose
 
