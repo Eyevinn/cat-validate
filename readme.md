@@ -33,19 +33,39 @@ Now providing a validation endpoint at http://localhost:8000/validate
 Token has expired
 ```
 
+This endpoint can now be used as an authentication endpoint for an nginx web server. As an example:
 
+```bash
+% docker run -v ./examples/nginx.conf:/etc/nginx/nginx.conf:ro -p 8080:80 -d nginx 
+```
+
+Above will start an nginx server that will use the validation endpoint to validate that the user is entitles to fetch the resource. We can try this with curl.
+
+```bash
+% curl -v -H 'CTA-Common-Access-Token: 0YRDoQEFoQRMU3ltbWV0cmljMjU2eL5kOTAxMDNhNzAxNjc2NTc5NjU3NjY5NmU2ZTAyNjU2YTZmNmU2MTczMDM2MzZmNmU2NTA0MWE2N2RhZDFiYzA2MWE2N2RhZDE0NDE5MDE0M2Q5MDEwM2E0MDAwMjA0Nzc2Mzc0NjEyZDYzNmY2ZDZkNmY2ZTJkNjE2MzYzNjU3MzczMmQ3NDZmNmI2NTZlMDExODc4MDIxODNjMDc1MDJlZDg5ZmRiNmY3NTViNjA5ZjdhMTdkNTY3ODI0M2IyWCBGB5EC1v2MiEiYl/tDzq6Wj9zM8Rn0Vfy5eWQ1G1Aevg==' http://localhost:8080/myfile.txt
+```
+
+In response we will get status `401` if the validation endpoint denies access to the `myfile.txt` resource.
 
 ## Requirements
 
-<!--Add any external project dependencies such as node.js version etc here -->
+- Node version 22+
 
 ## Installation / Usage
 
-<!--Add clear instructions on how to use the project here -->
+```bash
+% npm install
+```
 
 ## Development
 
-<!--Add clear instructions on how to start development of the project here -->
+```bash
+% npm start
+> @eyevinn/typescript-nodejs@1.0.0 start
+> ts-node -T src/server.ts
+Server listening on http://0.0.0.0:8000
+{"cti":"3c8997cc6b837b49a5d63e23f910f052","timestamp":1742393865415,"iat":1742393858,"exp":1742393978,"sub":"jonas"}
+```
 
 ## Contributing
 
