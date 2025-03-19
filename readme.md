@@ -65,7 +65,7 @@ To log all used tokens for usage analysis you provide a URL to a [ClickHouse dat
 ```bash
 % docker run --rm -p 8000:8000 \
   -e KEYS=Symmetric256:403697de87af64611c1d32a05dab0fe1fcb715a86ab435f1ec99192d79569388 \
-  -e CLICKHOUSE_URL=ttps://cat:cat@eyevinnlab-tokenlog.clickhouse-clickhouse.auto.prod.osaas.io \
+  -e CLICKHOUSE_URL=https://cat:cat@eyevinnlab-tokenlog.clickhouse-clickhouse.auto.prod.osaas.io \
   eyevinntechnology/cat-validator
 ```
 
