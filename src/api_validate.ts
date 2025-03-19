@@ -39,7 +39,15 @@ const apiValidate: FastifyPluginCallback<ValidateOptions> = (
   fastify.addHook('preHandler', async (req, reply) => {
     try {
       const result = await validator.validateHttpRequest(req.raw, reply.raw);
-      reply.code(result.status).send(result.message || 'ok');
+      const newToken = reply.raw.getHeader('cta-common-access-token');
+      if (newToken) {
+        reply
+          .header('cta-common-access-token', newToken)
+          .code(result.status)
+          .send(result.message || 'ok');
+      } else {
+        reply.code(result.status).send(result.message || 'ok');
+      }
     } catch (e) {
       reply.code(500).send((e as Error).message);
     }

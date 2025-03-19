@@ -14,13 +14,13 @@ async function main() {
       iss: 'compose',
       sub: 'jonas',
       aud: 'one',
-      exp: Math.floor(Date.now() / 1000) + 120,
+      exp: Math.floor(Date.now() / 1000) + 60,
       iat: Math.floor(Date.now() / 1000),
       catr: CommonAccessTokenRenewal.fromDict({
         type: 'header',
         'header-name': 'cta-common-access-token',
         expadd: 120,
-        deadline: 60
+        deadline: 30
       }).payload
     },
     {
