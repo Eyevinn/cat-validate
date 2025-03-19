@@ -36,7 +36,7 @@ Token has expired
 This endpoint can now be used as an authentication endpoint for an nginx web server. As an example:
 
 ```bash
-% docker run -v ./examples/nginx.conf:/etc/nginx/nginx.conf:ro -p 8080:80 -d nginx 
+% docker run -v ./examples/nginx.conf:/etc/nginx/nginx.conf:ro -p 8080:80 -d nginx
 ```
 
 Above will start an nginx server that will use the validation endpoint to validate that the user is entitles to fetch the resource. We can try this with curl.
