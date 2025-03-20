@@ -11,7 +11,7 @@ async function main() {
   });
   const base64encoded = await generator.generate(
     {
-      iss: 'compose',
+      iss: process.env.ISSUER || 'compose',
       sub: 'jonas',
       aud: 'one',
       exp: Math.floor(Date.now() / 1000) + 60,
