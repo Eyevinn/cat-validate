@@ -1,4 +1,5 @@
 import api from './api';
+import apiGenerate from './api_generate';
 import apiValidate from './api_validate';
 
 const server = api({ title: 'Common Access Token Validator Service' });
@@ -27,6 +28,7 @@ server.register(apiValidate, {
   redisUrl: process.env.REDIS_URL,
   clickHouseUrl: process.env.CLICKHOUSE_URL
 });
+server.register(apiGenerate);
 server.listen({ port: PORT, host: '0.0.0.0' }, (err, address) => {
   if (err) {
     throw err;
