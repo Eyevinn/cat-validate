@@ -20,6 +20,41 @@
 
 A service for validation of Common Access Tokens (CTA-5007). Based on the `@eyevinn/cat` NPM library.
 
+## Eyevinn Open Source Cloud
+
+Available as an open web service in [Eyevinn Open Source Cloud (OSC)](https://www.osaas.io).
+
+1. Sign up for an [OSC account](https://www.osaas.io)
+2. Get the personal access token in the web console (Settings/API)
+3. Store it in the environment variable `OSC_ACCESS_TOKEN` in your shell
+
+```bash
+% export OSC_ACCESS_TOKEN=<personal-access-token>
+```
+
+4. Launch an instance called `guide` using the OSC command line tool.
+
+```bash
+% npx -y @osaas/cli create eyevinn-cat-validate guide \
+  -o Keys="Symmetric256:403697de87af64611c1d32a05dab0fe1fcb715a86ab435f1ec99192d79569388"
+Instance created:
+{
+  name: 'guide',
+  url: 'https://eyevinnlab-guide.eyevinn-cat-validate.auto.prod.osaas.io',
+  ...
+}
+```
+
+Now you have a validation endpoint available at https://eyevinnlab-guide.eyevinn-cat-validate.auto.prod.osaas.io/validate
+
+```bash
+% curl -v -H 'CTA-Common-Access-Token: <TOKEN>' https://eyevinnlab-guide.eyevinn-cat-validate.auto.prod.osaas.io/validate
+< HTTP/2 200
+ok
+```
+
+## Docker (self-host)
+
 ```bash
 % docker run --rm -p 8000:8000 \
   -e KEYS=Symmetric256:403697de87af64611c1d32a05dab0fe1fcb715a86ab435f1ec99192d79569388 \
