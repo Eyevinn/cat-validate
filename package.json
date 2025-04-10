@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@clickhouse/client": "^1.11.0",
-    "@eyevinn/cat": "^0.15.3",
+    "@eyevinn/cat": "^0.15.5",
     "@fastify/cors": "^8.2.0",
     "@fastify/swagger": "^8.3.1",
     "@fastify/swagger-ui": "^1.5.0",
