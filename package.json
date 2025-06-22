@@ -1,6 +1,6 @@
 {
   "name": "cat-validator",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Common Access Token (CTA-5007) Validator Service",
   "scripts": {
     "test": "jest --passWithNoTests",
